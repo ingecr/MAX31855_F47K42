@@ -31,16 +31,13 @@
 #ifndef MAX31855_F47K42_H
 #define	MAX31855_F47K42_H
 
-#include <xc.h> // include processor files - each processor file is guarded.
+#include <xc.h>                             // include processor files - each processor file is guarded.
 #include <stdint.h>
 #include "mcc_generated_files/spi1.h"
 #include "mcc_generated_files/pin_manager.h"
 
-
+/*Recibe 2 punteros donde guarda los datos extraidos del sensor*/
 void get_MAX31855_temperatures(uint16_t* thermocupleTemp, uint16_t* internalTemp);
-
-
-
 
 #ifdef	__cplusplus
 extern "C" {

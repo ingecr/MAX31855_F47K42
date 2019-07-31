@@ -47,13 +47,9 @@
 
 #define _XTAL_FREQ 16000000
 
-
 uint16_t temperature_internal   = 0;
 uint16_t temperature_tcouple    = 0;
 
-/*
-                         Main application
- */
 void main(void)
 {
     // Initialize the device
@@ -76,6 +72,3 @@ void main(void)
         LED_OP_Toggle();
     }
 }
-/**
- End of File
-*/
