@@ -43,16 +43,13 @@
 
 #include "mcc_generated_files/mcc.h"
 #include "mcc_generated_files/spi1.h"
-#define DATASIZE_3885 4
-#define DATASIZE_6675 2
+#include "MAX31855_F47k42.h"
 
 #define _XTAL_FREQ 16000000
 
-uint8_t MAX3855_dataBuffer[DATASIZE_3885];
-uint8_t MAX6675_dataBuffer[DATASIZE_6675];
 
-uint16_t temperature_internal      = 0;
-uint16_t temperature_tcouple  = 0;
+uint16_t temperature_internal   = 0;
+uint16_t temperature_tcouple    = 0;
 
 /*
                          Main application
@@ -71,28 +68,10 @@ void main(void)
 
     // Disable the Global Interrupts
     //INTERRUPT_GlobalInterruptDisable();
-    //SS_LAT = ON;
     while (1)
-    {
-        // Add your application code
-        //SPI1_Exchange8bitBuffer(NULL, DATASIZE_3885,&MAX3855_dataBuffer[0]);
-        //SPI1_Exchange8bitBuffer(NULL, DATASIZE_6675,&MAX6675_dataBuffer[0]);
-        //SPI1TCNTL = 4;
-        SS_LAT = ON;
-        for(int i = 0; i < DATASIZE_3885 ; i++)
-        {   
-            MAX3855_dataBuffer[i] = SPI1_Exchange8bit();
-
-            //bytesWritten++;
-        }
-        SS_LAT = OFF;
-        
-        temperature_tcouple = MAX3855_dataBuffer[0];
-        temperature_tcouple = ((temperature_tcouple << 6) | (MAX3855_dataBuffer[1]>>2)) >> 2;
-        
-        temperature_internal = MAX3855_dataBuffer[2];
-        temperature_internal = ((temperature_internal << 4) | (MAX3855_dataBuffer[3]>>4)) >> 4;
-        
+    {  
+        get_MAX31855_temperatures(&temperature_tcouple, &temperature_internal);
+      
         __delay_ms(100);
         LED_OP_Toggle();
     }
